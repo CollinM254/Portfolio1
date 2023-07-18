@@ -38,21 +38,25 @@
             <div class="st-main-header-left">
               <div class="logo">
                 <!-- <div><iframe src="https://d1csarkz8obe9u.cloudfront.net/index.php/posterbuilder/view/a31f808d546b5b6628541feab1477a34/1" style="height: 300px; width:100%; border:none;"></iframe></div> -->
-                <a class="st-site-branding" href="index.html"
-                  >
+                <a class="st-site-branding" href="index.html">
                   <!-- <div>
                     <iframe
                       src="https://d1csarkz8obe9u.cloudfront.net/index.php/posterbuilder/view/a31f808d546b5b6628541feab1477a34/1"
                       style="height: 80px; width: 80px; border: none"
                     ></iframe></div -->
-                    <div><iframe src="https://d1csarkz8obe9u.cloudfront.net/index.php/posterbuilder/view/a31f808d546b5b6628541feab1477a34/1" style="height: 80px; width:80PX; border:none;"></iframe></div>
-                
-              </a>
+                  <div>
+                    <iframe
+                      src="https://d1csarkz8obe9u.cloudfront.net/index.php/posterbuilder/view/a31f808d546b5b6628541feab1477a34/1"
+                      style="height: 80px; width: 80px; border: none"
+                    ></iframe>
+                  </div>
+                </a>
               </div>
             </div>
             <div class="st-main-header-right">
               <div class="st-nav">
                 <ul class="st-nav-list st-onepage-nav">
+                  <li><button id="read-aloud-button">Read Aloud</button></li>
                   <li><a href="#home" class="st-smooth-move">Home</a></li>
                   <li><a href="#about" class="st-smooth-move">About</a></li>
                   <li>
@@ -1102,5 +1106,42 @@
     <script src="assets/js/main.js"></script>
     <!-- <script src="assets/js/AI.js"></script> -->
     <script src="assets/js/security.js"></script>
+    <script
+      src="//code.tidio.co/ygpxtf2kk19ti6kp5ml9qauzntv5umb8.js"
+      async
+    ></script>
+    <script>
+      const readAloudButton = document.getElementById("read-aloud-button");
+      const textToRead = document.querySelector("main").innerText;
+      const synth = window.speechSynthesis;
+      let reading = false;
+      let utterance = new SpeechSynthesisUtterance(textToRead);
+
+      readAloudButton.addEventListener("click", () => {
+        if (!reading) {
+          // Exclude header and footer text
+          const headerText = document.querySelector("header").innerText;
+          const footerText = document.querySelector("footer").innerText;
+          utterance.text = textToRead
+            .replace(headerText, "")
+            .replace(footerText, "");
+
+          // Set voice to AI-generated female voice
+          const voices = synth.getVoices();
+          const femaleVoice = voices.find(
+            (voice) => voice.name === "Microsoft Zira - English (United States)"
+          );
+          utterance.voice = femaleVoice;
+
+          synth.speak(utterance);
+          reading = true;
+          readAloudButton.innerText = "Stop Reading";
+        } else {
+          synth.cancel();
+          reading = false;
+          readAloudButton.innerText = "Read Aloud";
+        }
+      });
+    </script>
   </body>
 </html>
