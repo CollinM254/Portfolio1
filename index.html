@@ -85,6 +85,7 @@
     <!-- End Header Section -->
 
     <!-- Start Hero Seciton -->
+    <main>
     <section
       class="st-hero st-style2 st-bg st-dynamic-bg st-ripple-version"
       data-src="assets/img/bg-video.webm"
@@ -1075,6 +1076,7 @@
       </div>
       <div class="st-height-b100 st-height-lg-b80"></div>
     </section>
+  </main>
     <!-- End Contact Seciton -->
 
     <!-- Start Footer Seciton -->
@@ -1110,29 +1112,26 @@
       src="//code.tidio.co/ygpxtf2kk19ti6kp5ml9qauzntv5umb8.js"
       async
     ></script>
+
     <script>
       const readAloudButton = document.getElementById("read-aloud-button");
       const textToRead = document.querySelector("main").innerText;
       const synth = window.speechSynthesis;
       let reading = false;
       let utterance = new SpeechSynthesisUtterance(textToRead);
-
+  
       readAloudButton.addEventListener("click", () => {
         if (!reading) {
           // Exclude header and footer text
           const headerText = document.querySelector("header").innerText;
           const footerText = document.querySelector("footer").innerText;
-          utterance.text = textToRead
-            .replace(headerText, "")
-            .replace(footerText, "");
-
+          utterance.text = textToRead.replace(headerText, "").replace(footerText, "");
+  
           // Set voice to AI-generated female voice
           const voices = synth.getVoices();
-          const femaleVoice = voices.find(
-            (voice) => voice.name === "Microsoft Zira - English (United States)"
-          );
+          const femaleVoice = voices.find(voice => voice.name === "Microsoft Zira - English (United States)");
           utterance.voice = femaleVoice;
-
+  
           synth.speak(utterance);
           reading = true;
           readAloudButton.innerText = "Stop Reading";
